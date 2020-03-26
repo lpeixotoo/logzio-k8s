@@ -87,10 +87,11 @@ pipeline {
         stage('Checkout') {
             steps {
                 container('calling') {
-		    def vars = checkout scm
-		    vars.each { k,v -> env.setProperty(k, v) }
-                    script{ gitHash = (sh (returnStdout: true, script: 'git log -1 --pretty=%h'))
-                            gitHash=gitHash.trim() }
+                    script{
+			def vars = checkout scm
+			vars.each { k,v -> env.setProperty(k, v) }
+			gitHash = (sh (returnStdout: true, script: 'git log -1 --pretty=%h'))
+                        gitHash=gitHash.trim() }
                     sh 'git log -1 --pretty=%h'
                     sh 'ls -l'
                 }
