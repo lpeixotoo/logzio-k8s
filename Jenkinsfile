@@ -25,7 +25,7 @@ pipeline {
     // Application namespace (k8s namespace, docker repository, ...)
     NAMESPACE = "logging"
     // Application name
-    APP_NAME = "nccs-focus"
+    APP_NAME = "logging"
     // BRANCH_NAME="development"
     BRANCH_NAME="${BRANCH_NAME ? BRANCH_NAME :'development'}"
     IMAGE_NAME = "eu.gcr.io/nynja-ci-201610/${NAMESPACE}/${APP_NAME}"
