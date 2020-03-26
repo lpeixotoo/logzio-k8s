@@ -111,20 +111,5 @@ pipeline {
                 }
             }
         }
-        stage('Autodeploy on dev') {
-            when { branch 'development'}
-            steps{
-		container('calling'){ deploy("dev","$IMAGE_BUILD_TAG."+gitHash) } }
-        }
-        stage('Deploy on staging') {
-            when { branch 'master' 
-                   expression {prompt('Deploy to staging?')}}
-            steps{ container('calling') { deploy("staging","$IMAGE_BUILD_TAG."+gitHash) } }
-        }
-        stage('Deploy on prod') {
-            when { branch 'master'
-                   expression {prompt('Deploy to PROD?')} }
-            steps{ container('calling') { deploy("prod","$IMAGE_BUILD_TAG."+gitHash) } }
-        }
     }
 }
