@@ -87,24 +87,13 @@ pipeline {
         stage('Checkout') {
             steps {
                 container('calling') {
-                    checkout([$class: 'GitSCM', branches: [[name: "*/$BRANCH_NAME"]],
-                          doGenerateSubmoduleConfigurations: false,
-                            extensions: [[$class: 'SubmoduleOption',
-                            disableSubmodules: false,
-                            parentCredentials: true,
-                            recursiveSubmodules: true,
-                            reference: '',
-                            trackingSubmodules: false]],
-                          userRemoteConfigs: [[url: 'git@github.com:NYNJA-MC/logzio-k8s.git',
-                          credentialsId:'b8121bf7-cb0d-44c4-9871-59ba529f2bc4']]])
+		    def vars = checkout scm
+		    vars.each { k,v -> env.setProperty(k, v) }
                     script{ gitHash = (sh (returnStdout: true, script: 'git log -1 --pretty=%h'))
                             gitHash=gitHash.trim() }
-                        
                     sh 'git log -1 --pretty=%h'
                     sh 'ls -l'
                 }
-                //sh 'ls -l'
-                //git branch: 'sprint2', credentialsId: 'b8121bf7-cb0d-44c4-9871-59ba529f2bc4', url: 'git@github.com:NYNJA-MC/calling-server.git'
                 sh 'java -version'
             }
         }
